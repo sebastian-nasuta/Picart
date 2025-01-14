@@ -10,6 +10,7 @@ namespace Picart
         {
             InitializeComponent();
             _userAppThemeSettingsService = userAppThemeSettingsService;
+            _userAppThemeSettingsService.ReloadUserAppTheme();
         }
 
         protected override Window CreateWindow(IActivationState? activationState)

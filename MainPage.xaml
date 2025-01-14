@@ -2,22 +2,35 @@
 <ContentPage
     x:Class="Picart.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:Picart.ViewModels"
+    x:DataType="vm:MainViewModel">
 
     <StackLayout>
 
         <Grid
-            Padding="30,50,30,20"
-            ColumnDefinitions="*,*,Auto"
+            Padding="30,0,30,20"
+            ColumnDefinitions="*,Auto,Auto,Auto"
             RowDefinitions="Auto">
 
-            <Button
-                x:Name="ThemeToggler"
-                Grid.Column="2"
-                Clicked="ThemeToggler_Clicked"
+            <Label
+                Grid.Column="1"
                 FontFamily="MSO"
                 FontSize="Large"
-                Text="dark_mode" />
+                Text="light_mode"
+                VerticalOptions="Center" />
+
+            <Switch
+                x:Name="ThemeSwitch"
+                Grid.Column="2"
+                IsToggled="{Binding IsDarkTheme}" />
+
+            <Label
+                Grid.Column="3"
+                FontFamily="MSO"
+                FontSize="Large"
+                Text="dark_mode"
+                VerticalOptions="Center" />
         </Grid>
 
         <ScrollView>
@@ -47,16 +60,9 @@
                     Style="{StaticResource SubHeadline}"
                     Text="Welcome to &#10;.NET Multi-platform App UI" />
 
-                <Button
-                    x:Name="CounterBtn"
-                    Grid.Row="3"
-                    Clicked="OnCounterClicked"
-                    HorizontalOptions="Fill"
-                    SemanticProperties.Hint="Counts the number of times you click"
-                    Text="Click me" />
+                <Button Grid.Row="3" Text="Test" />
             </Grid>
 
         </ScrollView>
     </StackLayout>
-
 </ContentPage>

@@ -8,12 +8,6 @@ internal class UserAppThemeSettingsService() : IUserAppThemeSettingsService
 
     public void ReloadUserAppTheme() => SetUserAppTheme(LoadUserAppTheme());
 
-    public void SetUserAppTheme(string? themeName)
-    {
-        Enum.TryParse(typeof(AppTheme), themeName, out var appTheme);
-        SetUserAppTheme((AppTheme?)appTheme);
-    }
-
     public void SetUserAppTheme(AppTheme? appTheme)
     {
         if (Application.Current is not null)
