@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Picart.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <StackLayout>
+
+        <Grid
+            Padding="30"
+            ColumnDefinitions="*,*,Auto"
+            RowDefinitions="Auto">
+
+            <Button
+                x:Name="ThemeToggler"
+                Grid.Column="2"
+                Clicked="ThemeToggler_Clicked"
+                FontFamily="MSO"
+                FontSize="Large"
+                Text="dark_mode" />
+        </Grid>
+
+        <ScrollView>
+
+            <Grid
+                Padding="30,0"
+                RowDefinitions="Auto,Auto,Auto,Auto"
+                RowSpacing="25">
+
+                <Image
+                    Grid.Row="0"
+                    Aspect="AspectFit"
+                    HeightRequest="185"
+                    SemanticProperties.Description="dot net bot in a hovercraft number nine"
+                    Source="picart.png" />
+
+                <Label
+                    Grid.Row="1"
+                    SemanticProperties.HeadingLevel="Level1"
+                    Style="{StaticResource Headline}"
+                    Text="Hello, World!" />
+
+                <Label
+                    Grid.Row="2"
+                    SemanticProperties.Description="Welcome to dot net Multi platform App U I"
+                    SemanticProperties.HeadingLevel="Level2"
+                    Style="{StaticResource SubHeadline}"
+                    Text="Welcome to &#10;.NET Multi-platform App UI" />
+
+                <Button
+                    x:Name="CounterBtn"
+                    Grid.Row="3"
+                    Clicked="OnCounterClicked"
+                    HorizontalOptions="Fill"
+                    SemanticProperties.Hint="Counts the number of times you click"
+                    Text="Click me" />
+            </Grid>
+
+        </ScrollView>
+    </StackLayout>
+
+</ContentPage>
