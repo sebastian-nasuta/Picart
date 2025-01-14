@@ -2,12 +2,11 @@
 
 internal class UserAppThemeSettingsService() : IUserAppThemeSettingsService
 {
-    public AppTheme? LoadUserAppTheme()
-    {
-        var savedTheme = Preferences.Get("UserAppTheme", AppTheme.Unspecified.ToString());
-        Enum.TryParse(typeof(AppTheme), savedTheme, out var currentTheme);
-        return (AppTheme?)currentTheme;
-    }
+    private const string UserAppThemeKey = "UserAppTheme";
+
+    public AppTheme LoadUserAppTheme() => Enum.Parse<AppTheme>(Preferences.Get(UserAppThemeKey, AppTheme.Unspecified.ToString()));
+
+    public void ReloadUserAppTheme() => SetUserAppTheme(LoadUserAppTheme());
 
     public void SetUserAppTheme(string? themeName)
     {
@@ -18,10 +17,18 @@ internal class UserAppThemeSettingsService() : IUserAppThemeSettingsService
     public void SetUserAppTheme(AppTheme? appTheme)
     {
         if (Application.Current is not null)
+        {
             Application.Current.UserAppTheme = appTheme ?? AppTheme.Unspecified;
-
-        Preferences.Set("UserAppTheme", appTheme.ToString());
+        }
+        Preferences.Set(UserAppThemeKey, appTheme.ToString());
     }
 
-    public void ReloadUserAppTheme() => SetUserAppTheme(LoadUserAppTheme());
+    public void ToggleUserAppTheme()
+    {
+        if (Application.Current is not null)
+        {
+            var requestedTheme = Application.Current.RequestedTheme;
+            SetUserAppTheme(requestedTheme == AppTheme.Dark ? AppTheme.Light : AppTheme.Dark);
+        }
+    }
 }

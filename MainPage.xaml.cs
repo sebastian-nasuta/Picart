@@ -1,12 +1,16 @@
-﻿namespace Picart
+﻿using Picart.Services.UserAppThemeSettingsService;
+
+namespace Picart
 {
     public partial class MainPage : ContentPage
     {
+        private readonly IUserAppThemeSettingsService _userAppThemeSettingsService;
         int count = 0;
 
-        public MainPage()
+        public MainPage(IUserAppThemeSettingsService userAppThemeSettingsService)
         {
             InitializeComponent();
+            _userAppThemeSettingsService = userAppThemeSettingsService;
         }
 
         private void OnCounterClicked(object sender, EventArgs e)
@@ -23,8 +27,7 @@
 
         private void ThemeToggler_Clicked(object sender, EventArgs e)
         {
-
+            Dispatcher.Dispatch(_userAppThemeSettingsService.ToggleUserAppTheme);
         }
     }
-
 }

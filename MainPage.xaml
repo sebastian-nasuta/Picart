@@ -7,7 +7,7 @@
     <StackLayout>
 
         <Grid
-            Padding="30"
+            Padding="30,50,30,20"
             ColumnDefinitions="*,*,Auto"
             RowDefinitions="Auto">
 
