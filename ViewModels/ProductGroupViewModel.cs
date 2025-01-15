@@ -3,15 +3,9 @@ using Picart.Models;
 
 namespace Picart.ViewModels
 {
-    internal partial class ProductGroupViewModel : ViewModelBase
+    internal partial class ProductGroupViewModel(ProductGroup productGroup) : ViewModelBase
     {
-        public string GroupName { get; }
-        public ObservableCollection<Product> Products { get; }
-
-        public ProductGroupViewModel(ProductGroup productGroup)
-        {
-            GroupName = productGroup.Name;
-            Products = new ObservableCollection<Product>(productGroup.Products);
-        }
+        public string GroupName { get; } = productGroup.Name;
+        public ObservableCollection<Product> Products { get; } = new ObservableCollection<Product>(productGroup.Products);
     }
 }

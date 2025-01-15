@@ -9,13 +9,15 @@ namespace Picart.ViewModels
     {
         private readonly IUserAppThemeSettingsService _userAppThemeSettingsService;
 
-        public ObservableCollection<ProductGroup> ProductGroups { get; } = new()
-            {
-                new( "Owoce i warzywa", new[] { new Product("jabłka"), new Product("banany"), new Product("pomidory"), new Product("ogórki"), new Product("ziemniaki") } ),
-                new( "Jogurty", new[] { new Product("skyr"), new Product("jogurt grecki"), new Product("jogurt naturalny"), new Product("jogurt owocowy") } ),
-                new( "Sery", new[] { new Product("ser żółty"), new Product("ser pleśniowy"), new Product("mozarella") } ),
-                new( "Wędliny", new[] { new Product("krakowska sucha"), new Product("kabanosy"), new Product("parówki") } )
-            };
+        private static Page MainPage => Application.Current!.Windows[0].Page!;
+
+        public ObservableCollection<ProductGroup> ProductGroups { get; } =
+        [
+            new( "Owoce i warzywa", [new Product("jabłka"), new Product("banany"), new Product("pomidory"), new Product("ogórki"), new Product("ziemniaki")] ),
+            new( "Jogurty", [new Product("skyr"), new Product("jogurt grecki"), new Product("jogurt naturalny"), new Product("jogurt owocowy")] ),
+            new( "Sery", [new Product("ser żółty"), new Product("ser pleśniowy"), new Product("mozarella")] ),
+            new( "Wędliny", [new Product("krakowska sucha"), new Product("kabanosy"), new Product("parówki")] )
+        ];
 
         public bool IsDarkTheme
         {
@@ -35,13 +37,32 @@ namespace Picart.ViewModels
         {
             _userAppThemeSettingsService = userAppThemeSettingsService;
             NavigateToProductGroupCommand = new Command<ProductGroup>(NavigateToProductGroup);
-            AddGroupCommand = new Command(() => ProductGroups.Add(new($"group_{DateTime.UtcNow.Ticks}", new[] { new Product($"product_{DateTime.UtcNow.Ticks}") })));
+            AddGroupCommand = new Command(async () => await AddGroupAsync());
             RemoveGroupCommand = new Command(() => ProductGroups.Remove(ProductGroups.Last()));
+        }
+
+        private async Task AddGroupAsync(string initialName = "")
+        {
+            string result = await MainPage.DisplayPromptAsync("New Group", "Enter the name of the new group:", initialValue: initialName);
+            if (ProductGroups.Any(ProductGroups => ProductGroups.Name.Equals(result, StringComparison.OrdinalIgnoreCase)))
+            {
+                await MainPage.DisplayAlert("Error", "Group with this name already exists", "OK");
+                await AddGroupAsync(result);
+            }
+            else if (string.IsNullOrWhiteSpace(result))
+            {
+                await MainPage.DisplayAlert("Error", "Group name cannot be empty", "OK");
+                await AddGroupAsync();
+            }
+            else
+            {
+                ProductGroups.Add(new ProductGroup(result, []));
+            }
         }
 
         private async void NavigateToProductGroup(ProductGroup productGroup)
         {
-            if (Application.Current?.Windows[0].Page is NavigationPage navigationPage)
+            if (MainPage is NavigationPage navigationPage)
             {
                 await navigationPage.PushAsync(new ProductGroupPage(productGroup));
             }

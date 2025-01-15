@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:m="clr-namespace:Picart.Models"
     xmlns:vm="clr-namespace:Picart.ViewModels"
+    Title="{Binding GroupName}"
     x:DataType="vm:ProductGroupViewModel">
     <ScrollView>
         <ListView ItemsSource="{Binding Products}">
