@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Picart.Pages.ProductGroupPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:m="clr-namespace:Picart.Models"
+    xmlns:vm="clr-namespace:Picart.ViewModels"
+    x:DataType="vm:ProductGroupViewModel">
+    <ScrollView>
+        <ListView ItemsSource="{Binding Products}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="m:Product">
+                    <ViewCell>
+                        <StackLayout Padding="10" Orientation="Horizontal">
+                            <CheckBox IsChecked="{Binding Checked}" VerticalOptions="Center" />
+                            <Label Text="{Binding Name}" VerticalOptions="Center" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </ScrollView>
+</ContentPage>

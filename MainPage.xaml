@@ -3,18 +3,33 @@
     x:Class="Picart.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Picart"
+    xmlns:m="clr-namespace:Picart.Models"
     xmlns:vm="clr-namespace:Picart.ViewModels"
     x:DataType="vm:MainViewModel">
 
     <StackLayout>
 
-        <Grid
-            Padding="30,0,30,20"
-            ColumnDefinitions="*,Auto,Auto,Auto"
-            RowDefinitions="Auto">
+        <Grid Padding="30,0,30,20" ColumnDefinitions="Auto,Auto,*,Auto,Auto,Auto">
+
+            <Button
+                Grid.Column="0"
+                Margin="5,0"
+                Command="{Binding AddGroupCommand}"
+                FontFamily="MSO"
+                FontSize="Title"
+                Text="library_add" />
+
+            <Button
+                Grid.Column="1"
+                Margin="5,0"
+                Command="{Binding RemoveGroupCommand}"
+                FontFamily="MSO"
+                FontSize="Title"
+                Text="tab_close" />
 
             <Label
-                Grid.Column="1"
+                Grid.Column="3"
                 FontFamily="MSO"
                 FontSize="Large"
                 Text="light_mode"
@@ -22,47 +37,34 @@
 
             <Switch
                 x:Name="ThemeSwitch"
-                Grid.Column="2"
+                Grid.Column="4"
                 IsToggled="{Binding IsDarkTheme}" />
 
             <Label
-                Grid.Column="3"
+                Grid.Column="5"
                 FontFamily="MSO"
                 FontSize="Large"
                 Text="dark_mode"
                 VerticalOptions="Center" />
         </Grid>
 
-        <ScrollView>
+        <CollectionView ItemsSource="{Binding ProductGroups}">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout
+                    Orientation="Vertical"
+                    Span="2"
+                    VerticalItemSpacing="10" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="m:ProductGroup">
+                    <Button
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=NavigateToProductGroupCommand}"
+                        CommandParameter="{Binding .}"
+                        Text="{Binding Name}"
+                        WidthRequest="160" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
-            <Grid
-                Padding="30,0"
-                RowDefinitions="Auto,Auto,Auto,Auto"
-                RowSpacing="25">
-
-                <Image
-                    Grid.Row="0"
-                    Aspect="AspectFit"
-                    HeightRequest="185"
-                    SemanticProperties.Description="dot net bot in a hovercraft number nine"
-                    Source="picart.png" />
-
-                <Label
-                    Grid.Row="1"
-                    SemanticProperties.HeadingLevel="Level1"
-                    Style="{StaticResource Headline}"
-                    Text="Hello, World!" />
-
-                <Label
-                    Grid.Row="2"
-                    SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                    SemanticProperties.HeadingLevel="Level2"
-                    Style="{StaticResource SubHeadline}"
-                    Text="Welcome to &#10;.NET Multi-platform App UI" />
-
-                <Button Grid.Row="3" Text="Test" />
-            </Grid>
-
-        </ScrollView>
     </StackLayout>
 </ContentPage>

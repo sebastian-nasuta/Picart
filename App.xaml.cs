@@ -15,7 +15,7 @@ namespace Picart
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            return new Window(new MainPage(_userAppThemeSettingsService));
+            return new Window(new NavigationPage(new MainPage(_userAppThemeSettingsService)));
         }
     }
 }
