@@ -20,14 +20,6 @@
                 FontSize="Title"
                 Text="library_add" />
 
-            <Button
-                Grid.Column="1"
-                Margin="5,0"
-                Command="{Binding RemoveGroupCommand}"
-                FontFamily="MSO"
-                FontSize="Title"
-                Text="tab_close" />
-
             <Label
                 Grid.Column="3"
                 FontFamily="MSO"
@@ -50,18 +42,23 @@
 
         <CollectionView ItemsSource="{Binding ProductGroups}">
             <CollectionView.ItemsLayout>
-                <GridItemsLayout
-                    Orientation="Vertical"
-                    Span="2"
-                    VerticalItemSpacing="10" />
+                <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="10" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="m:ProductGroup">
-                    <Button
-                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=NavigateToProductGroupCommand}"
-                        CommandParameter="{Binding .}"
-                        Text="{Binding Name}"
-                        WidthRequest="160" />
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+                        <Button
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=NavigateToProductGroupCommand}"
+                            CommandParameter="{Binding .}"
+                            Text="{Binding Name}"
+                            WidthRequest="200" />
+                        <Button
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=DeleteProductGroupCommand}"
+                            CommandParameter="{Binding .}"
+                            FontFamily="MSO"
+                            FontSize="Large"
+                            Text="delete" />
+                    </HorizontalStackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
