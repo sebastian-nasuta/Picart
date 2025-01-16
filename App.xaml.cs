@@ -15,7 +15,9 @@ namespace Picart
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            return new Window(new NavigationPage(new MainPage(_userAppThemeSettingsService)));
+            var mainPage = new MainPage(_userAppThemeSettingsService);
+            NavigationPage.SetHasNavigationBar(mainPage, false);
+            return new Window(new NavigationPage(mainPage));
         }
     }
 }

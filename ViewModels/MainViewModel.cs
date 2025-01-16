@@ -16,17 +16,7 @@ namespace Picart.ViewModels
             new( "Owoce i warzywa", [new Product("jabłka"), new Product("banany"), new Product("pomidory"), new Product("ogórki"), new Product("ziemniaki")] ),
             new( "Jogurty", [new Product("skyr"), new Product("jogurt grecki"), new Product("jogurt naturalny"), new Product("jogurt owocowy")] ),
             new( "Sery", [new Product("ser żółty"), new Product("ser pleśniowy"), new Product("mozarella")] ),
-            new( "Wędliny", [new Product("krakowska sucha"), new Product("kabanosy"), new Product("parówki")] ),
-            new( "1", []),
-            new( "2", []),
-            new( "3", []),
-            new( "4", []),
-            new( "5", []),
-            new( "6", []),
-            new( "7", []),
-            new( "8", []),
-            new( "9", []),
-            new( "10", [])
+            new( "Wędliny", [new Product("krakowska sucha"), new Product("kabanosy"), new Product("parówki")] )
         ];
 
         public bool IsDarkTheme
