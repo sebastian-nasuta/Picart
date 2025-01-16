@@ -61,11 +61,5 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-
-        <Label
-            FontSize="Title"
-            HorizontalOptions="Center"
-            Text="TEST"
-            VerticalOptions="Center" />
     </StackLayout>
 </ContentPage>
