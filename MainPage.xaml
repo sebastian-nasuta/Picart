@@ -13,10 +13,21 @@
         <Grid Padding="30,10,30,30" ColumnDefinitions="Auto,Auto,*,Auto,Auto,Auto">
 
             <Button
-                Command="{Binding AddGroupCommand}"
+                Grid.Column="0"
+                Margin="5,0"
+                BackgroundColor="{StaticResource DarkLemonLime_100}"
+                Command="{Binding AddProductGroupCommand}"
                 FontFamily="MSO"
                 FontSize="Large"
                 Text="library_add" />
+            <Button
+                Grid.Column="1"
+                Margin="5,0"
+                BackgroundColor="{StaticResource DenimBlue_120}"
+                Command="{Binding GenerateListCommand}"
+                FontFamily="MSO"
+                FontSize="Large"
+                Text="convert_to_text" />
             <Label
                 Grid.Column="3"
                 FontFamily="MSO"

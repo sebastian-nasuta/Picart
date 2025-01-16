@@ -29,38 +29,32 @@ namespace Picart.ViewModels
             }
         }
 
-        public Command<ProductGroup> NavigateToProductGroupCommand { get; }
+        public Command AddProductGroupCommand { get; }
         public Command<ProductGroup> DeleteProductGroupCommand { get; }
-        public Command AddGroupCommand { get; }
+        public Command GenerateListCommand { get; }
+        public Command<ProductGroup> NavigateToProductGroupCommand { get; }
 
         public MainViewModel(IUserAppThemeSettingsService userAppThemeSettingsService)
         {
             _userAppThemeSettingsService = userAppThemeSettingsService;
-            NavigateToProductGroupCommand = new Command<ProductGroup>(NavigateToProductGroup);
+            AddProductGroupCommand = new Command(async () => await AddProductGroupAsync());
             DeleteProductGroupCommand = new Command<ProductGroup>(DeleteProductGroup);
-            AddGroupCommand = new Command(async () => await AddGroupAsync());
+            GenerateListCommand = new Command(async () => await GenerateListAsync());
+            NavigateToProductGroupCommand = new Command<ProductGroup>(NavigateToProductGroup);
         }
 
-        private async Task AddGroupAsync(string initialName = "")
+        private async Task AddProductGroupAsync(string initialName = "")
         {
             var title = "New Group";
             var result = await MainPage.DisplayPromptAsync(title, "Enter the name of the new group:", initialValue: initialName);
             if (ProductGroups.Any(ProductGroups => ProductGroups.Name.Equals(result, StringComparison.OrdinalIgnoreCase)))
             {
                 await MainPage.DisplayAlert(title, "Group with this name already exists", "OK");
-                await AddGroupAsync(result);
+                await AddProductGroupAsync(result);
             }
             else if (!string.IsNullOrWhiteSpace(result))
             {
                 ProductGroups.Add(new ProductGroup(result, []));
-            }
-        }
-
-        private async void NavigateToProductGroup(ProductGroup productGroup)
-        {
-            if (MainPage is NavigationPage navigationPage)
-            {
-                await navigationPage.PushAsync(new ProductGroupPage(productGroup));
             }
         }
 
@@ -70,6 +64,19 @@ namespace Picart.ViewModels
             if (result)
             {
                 ProductGroups.Remove(productGroup);
+            }
+        }
+
+        private async Task GenerateListAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        private async void NavigateToProductGroup(ProductGroup productGroup)
+        {
+            if (MainPage is NavigationPage navigationPage)
+            {
+                await navigationPage.PushAsync(new ProductGroupPage(productGroup));
             }
         }
     }
