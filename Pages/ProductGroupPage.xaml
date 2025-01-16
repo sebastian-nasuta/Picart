@@ -12,10 +12,29 @@
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="m:Product">
                     <ViewCell>
-                        <StackLayout Padding="10" Orientation="Horizontal">
-                            <CheckBox IsChecked="{Binding Checked}" VerticalOptions="Center" />
-                            <Label Text="{Binding Name}" VerticalOptions="Center" />
-                        </StackLayout>
+                        <SwipeView>
+                            <SwipeView.LeftItems>
+                                <SwipeItems Mode="Execute">
+                                    <SwipeItem
+                                        x:Name="DeleteProductSwipeItem"
+                                        BackgroundColor="{StaticResource ExtremeRed}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProductGroupViewModel}}, Path=DeleteProductCommand}"
+                                        CommandParameter="{Binding .}"
+                                        Text="delete" />
+                                </SwipeItems>
+                            </SwipeView.LeftItems>
+
+                            <Grid Padding="10" ColumnDefinitions="Auto,Auto">
+                                <CheckBox
+                                    Grid.Column="0"
+                                    IsChecked="{Binding Checked}"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    Grid.Column="1"
+                                    Text="{Binding Name}"
+                                    VerticalOptions="Center" />
+                            </Grid>
+                        </SwipeView>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>

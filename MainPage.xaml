@@ -48,7 +48,7 @@
                             Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=DeleteProductGroupCommand}"
                             CommandParameter="{Binding .}"
                             FontFamily="MSO"
-                            FontSize="Large"
+                            FontSize="Medium"
                             Text="delete"
                             WidthRequest="50" />
                     </HorizontalStackLayout>
