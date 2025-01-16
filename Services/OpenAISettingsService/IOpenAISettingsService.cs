@@ -2,6 +2,6 @@
 
 public interface IOpenAISettingsService
 {
-    string? LoadOpenAIApiKey();
+    string LoadOpenAIApiKey();
     void SaveOpenAIApiKey(string apiKey);
 }

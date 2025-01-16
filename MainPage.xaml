@@ -10,9 +10,13 @@
 
     <StackLayout>
 
-        <Grid Padding="30,10,30,30" ColumnDefinitions="Auto,Auto,*,Auto,Auto,Auto">
+        <Grid
+            Padding="30,10,30,30"
+            ColumnDefinitions="Auto,Auto,*,Auto,Auto,Auto"
+            RowDefinitions="Auto,Auto">
 
             <Button
+                Grid.Row="0"
                 Grid.Column="0"
                 Margin="5,0"
                 BackgroundColor="{StaticResource DarkLemonLime_100}"
@@ -21,6 +25,7 @@
                 FontSize="Large"
                 Text="library_add" />
             <Button
+                Grid.Row="0"
                 Grid.Column="1"
                 Margin="5,0"
                 BackgroundColor="{StaticResource DenimBlue_120}"
@@ -29,6 +34,7 @@
                 FontSize="Large"
                 Text="convert_to_text" />
             <Label
+                Grid.Row="0"
                 Grid.Column="3"
                 FontFamily="MSO"
                 FontSize="Large"
@@ -37,16 +43,29 @@
 
             <Switch
                 x:Name="ThemeSwitch"
+                Grid.Row="0"
                 Grid.Column="4"
                 IsToggled="{Binding IsDarkTheme}" />
 
             <Label
+                Grid.Row="0"
                 Grid.Column="5"
                 FontFamily="MSO"
                 FontSize="Large"
                 Text="dark_mode"
                 VerticalOptions="Center" />
+
+            <ActivityIndicator
+                x:Name="LoadingIndicator"
+                Grid.Row="1"
+                Grid.ColumnSpan="6"
+                Margin="5"
+                HorizontalOptions="Center"
+                IsRunning="{Binding IsLoading}"
+                IsVisible="{Binding IsLoading}"
+                VerticalOptions="Center" />
         </Grid>
+
 
         <CollectionView ItemsSource="{Binding ProductGroups}" VerticalOptions="FillAndExpand">
             <CollectionView.ItemsLayout>

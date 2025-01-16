@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Picart.Converters;
 using Picart.Services.OpenAISettingsService;
 using Picart.Services.UserAppThemeSettingsService;
 using System.Reflection;
@@ -29,6 +30,8 @@ namespace Picart
                 .Build();
 
             builder.Configuration.AddConfiguration(config);
+
+            builder.Services.AddSingleton<IProductListConverter, ProductListConverter>();
 
             builder.Services.AddSingleton<IOpenAISettingsService, OpenAISettingsService>();
             builder.Services.AddSingleton<IUserAppThemeSettingsService, UserAppThemeSettingsService>();

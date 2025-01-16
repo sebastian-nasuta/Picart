@@ -1,19 +1,15 @@
-﻿using Picart.Services.UserAppThemeSettingsService;
+﻿using Picart.Converters;
+using Picart.Services.UserAppThemeSettingsService;
 using Picart.ViewModels;
 
 namespace Picart
 {
     public partial class MainPage : ContentPage
     {
-        public MainPage(IUserAppThemeSettingsService userAppThemeSettingsService)
+        public MainPage(IProductListConverter productListConverter, IUserAppThemeSettingsService userAppThemeSettingsService)
         {
             InitializeComponent();
-            BindingContext = new MainViewModel(userAppThemeSettingsService);
-        }
-
-        private void Button_Pressed(object sender, EventArgs e)
-        {
-            DisplayAlert("Alert", "You have pressed the button", "OK");
+            BindingContext = new MainViewModel(productListConverter, userAppThemeSettingsService);
         }
     }
 }

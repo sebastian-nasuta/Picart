@@ -1,4 +1,5 @@
-﻿using Picart.Models;
+﻿using Picart.Converters;
+using Picart.Models;
 using Picart.Pages;
 using Picart.Services.UserAppThemeSettingsService;
 using System.Collections.ObjectModel;
@@ -8,15 +9,25 @@ namespace Picart.ViewModels
     internal partial class MainViewModel : ViewModelBase
     {
         private readonly IUserAppThemeSettingsService _userAppThemeSettingsService;
+        private readonly IProductListConverter _productListConverter;
+
+        private bool _isLoading;
 
         private static Page MainPage => Application.Current!.Windows[0].Page!;
 
-        public ObservableCollection<ProductGroup> ProductGroups { get; } =
+        public ObservableCollection<ProductGroup> ProductGroups { get; private set; } =
         [
+            /*
             new( "Owoce i warzywa", [new Product("jabłka"), new Product("banany"), new Product("pomidory"), new Product("ogórki"), new Product("ziemniaki")] ),
             new( "Jogurty", [new Product("skyr"), new Product("jogurt grecki"), new Product("jogurt naturalny"), new Product("jogurt owocowy")] ),
             new( "Sery", [new Product("ser żółty"), new Product("ser pleśniowy"), new Product("mozarella")] ),
             new( "Wędliny", [new Product("krakowska sucha"), new Product("kabanosy"), new Product("parówki")] )
+            */
+            new("Produkty zbożowe", []),
+            new("Mięso", []),
+            new("Warzywa", []),
+            new("Nabiał", []),
+            new("Owoce", [])
         ];
 
         public bool IsDarkTheme
@@ -29,14 +40,26 @@ namespace Picart.ViewModels
             }
         }
 
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set
+            {
+                _isLoading = value;
+                OnPropertyChanged();
+            }
+        }
+
         public Command AddProductGroupCommand { get; }
         public Command<ProductGroup> DeleteProductGroupCommand { get; }
         public Command GenerateListCommand { get; }
         public Command<ProductGroup> NavigateToProductGroupCommand { get; }
 
-        public MainViewModel(IUserAppThemeSettingsService userAppThemeSettingsService)
+        public MainViewModel(IProductListConverter productListConverter, IUserAppThemeSettingsService userAppThemeSettingsService)
         {
+            _productListConverter = productListConverter;
             _userAppThemeSettingsService = userAppThemeSettingsService;
+
             AddProductGroupCommand = new Command(async () => await AddProductGroupAsync());
             DeleteProductGroupCommand = new Command<ProductGroup>(DeleteProductGroup);
             GenerateListCommand = new Command(async () => await GenerateListAsync());
@@ -69,7 +92,28 @@ namespace Picart.ViewModels
 
         private async Task GenerateListAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                IsLoading = true;
+                var initRawList = "makaron; ryż; kurczak; wołowina; sałata; pomidory; ser cheddar; jogurt grecki; mleko sojowe; tofu; chleb razowy; masło orzechowe; banany; jabłka; gruszki";
+                var rawList = await MainPage.DisplayPromptAsync("Generate List", "Enter the raw list:", initialValue: initRawList);
+                var productGroupNames = ProductGroups.Select(x => x.Name).ToList();
+                var convertedProductGroups = await _productListConverter.ConvertAsync(rawList, productGroupNames);
+
+                ProductGroups.Clear();
+                foreach (var productGroup in convertedProductGroups)
+                {
+                    ProductGroups.Add(productGroup);
+                }
+            }
+            catch (Exception ex)
+            {
+                App.ShowExceptionAlert($"An error occurred while generating the list: {ex.Message}");
+            }
+            finally
+            {
+                IsLoading = false;
+            }
         }
 
         private async void NavigateToProductGroup(ProductGroup productGroup)
