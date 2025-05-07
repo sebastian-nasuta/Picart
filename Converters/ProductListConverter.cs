@@ -28,6 +28,8 @@ namespace Picart.Converters
                         - Do not add any other text, return ONLY JSON with the list of products.
                         - If you are not sure where to assign a given product, add it to the "INNE" group.
                         - Use only the given category names, NEVER create new ones.
+                        - Make sure all products are assigned to the appropriate product groups and nothing is omitted.
+                        - [VERY IMPORTANT] EVERY product MUST be assigned to a group. You CAN'T skip any product.
                         """),
                     ChatMessageContentPart.CreateTextPart("""
                         ~EXAMPLE~

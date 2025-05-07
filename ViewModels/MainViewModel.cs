@@ -27,7 +27,8 @@ namespace Picart.ViewModels
             new("Mięso", []),
             new("Warzywa", []),
             new("Nabiał", []),
-            new("Owoce", [])
+            new("Owoce", []),
+            new("Dziecięce", [])
         ];
 
         public bool IsDarkTheme
@@ -49,6 +50,9 @@ namespace Picart.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        public int ProductsInitCount { get; set; }
+        public int ProductsCount => ProductGroups.SelectMany(x => x.Products).Count();
 
         public Command AddProductGroupCommand { get; }
         public Command<ProductGroup> DeleteProductGroupCommand { get; }
@@ -94,9 +98,44 @@ namespace Picart.ViewModels
         {
             try
             {
-                IsLoading = true;
-                var initRawList = "makaron; ryż; kurczak; wołowina; sałata; pomidory; ser cheddar; jogurt grecki; mleko sojowe; tofu; chleb razowy; masło orzechowe; banany; jabłka; gruszki";
+                var initRawList = @"makaron; ryż; pieluszki; kurczak; chusteczki; zbawki; klocki; pies; butelka; głośnik; wołowina; sałata; pomidory;
+ser cheddar; jogurt grecki; mleko sojowe; tofu; chleb razowy; masło orzechowe; banany; jabłka; gruszki";
+
+                initRawList = """
+                    - makaron
+                    - ryż 1kg
+                    - pieluszki
+                    - kurczak
+                    - chusteczki - 2 pudełka
+                    - zabawki
+                    - klocki
+                    - pies
+                    - sok pomarańczowy - karton
+                    - butelka
+                    - głośnik
+                    - wołowina 0.5kg
+                    - sałata
+                    - pomidory
+                    - ser cheddar 300g
+                    - jogurt grecki 3
+                    - mleko sojowe
+                    - tofu
+                    - chleb razowy
+                    - masło orzechowe
+                    - banany
+                    - jabłka 4
+                    - gruszki 3
+                    """;
+
+                ProductsInitCount = initRawList.Split('-').Length - 3;
+                OnPropertyChanged(nameof(ProductsInitCount));
+
                 var rawList = await MainPage.DisplayPromptAsync("Generate List", "Enter the raw list:", initialValue: initRawList);
+                if(string.IsNullOrWhiteSpace(rawList))
+                {
+                    return;
+                }
+                IsLoading = true;
                 var productGroupNames = ProductGroups.Select(x => x.Name).ToList();
                 var convertedProductGroups = await _productListConverter.ConvertAsync(rawList, productGroupNames);
 
@@ -105,6 +144,8 @@ namespace Picart.ViewModels
                 {
                     ProductGroups.Add(productGroup);
                 }
+
+                OnPropertyChanged(nameof(ProductsCount));
             }
             catch (Exception ex)
             {

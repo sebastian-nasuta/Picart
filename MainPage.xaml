@@ -13,7 +13,7 @@
         <Grid
             Padding="30,10,30,30"
             ColumnDefinitions="Auto,Auto,*,Auto,Auto,Auto"
-            RowDefinitions="Auto,Auto">
+            RowDefinitions="Auto,Auto,Auto">
 
             <Button
                 Grid.Row="0"
@@ -24,6 +24,7 @@
                 FontFamily="MSO"
                 FontSize="Large"
                 Text="library_add" />
+
             <Button
                 Grid.Row="0"
                 Grid.Column="1"
@@ -33,6 +34,7 @@
                 FontFamily="MSO"
                 FontSize="Large"
                 Text="convert_to_text" />
+
             <Label
                 Grid.Row="0"
                 Grid.Column="3"
@@ -55,9 +57,19 @@
                 Text="dark_mode"
                 VerticalOptions="Center" />
 
+            <Label
+                Grid.Row="1"
+                Grid.Column="0"
+                Text="{Binding ProductsInitCount}" />
+
+            <Label
+                Grid.Row="1"
+                Grid.Column="1"
+                Text="{Binding ProductsCount}" />
+
             <ActivityIndicator
                 x:Name="LoadingIndicator"
-                Grid.Row="1"
+                Grid.Row="2"
                 Grid.ColumnSpan="6"
                 Margin="5"
                 HorizontalOptions="Center"
